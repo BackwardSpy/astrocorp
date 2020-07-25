@@ -15,6 +15,11 @@ _global_script_classes=[ {
 "path": "res://script/APU.gd"
 }, {
 "base": "Node",
+"class": "GridController",
+"language": "GDScript",
+"path": "res://script/GridController.gd"
+}, {
+"base": "Node",
 "class": "PowerDistributor",
 "language": "GDScript",
 "path": "res://script/PowerDistributor.gd"
@@ -23,16 +28,24 @@ _global_script_classes=[ {
 "class": "Reactor",
 "language": "GDScript",
 "path": "res://script/Reactor.gd"
+}, {
+"base": "Node",
+"class": "WarpDrive",
+"language": "GDScript",
+"path": "res://script/WarpDrive.gd"
 } ]
 _global_script_class_icons={
 "APU": "",
+"GridController": "",
 "PowerDistributor": "",
-"Reactor": ""
+"Reactor": "",
+"WarpDrive": ""
 }
 
 [application]
 
 config/name="Astrocorp"
+run/main_scene="res://Space.tscn"
 config/icon="res://icon.png"
 
 [rendering]

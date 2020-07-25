@@ -2,6 +2,8 @@ extends Node
 
 class_name Reactor
 
+signal scram_activated
+
 export var channel_count := 8
 export var channel_length := 15.0 # m
 export var rod_speed := 0.5 # m/s
@@ -15,6 +17,7 @@ export var coolant_mass := 6308.0 # kg
 export var coolant_heat_capacity := 4200.0 # J/kg°C
 export var passive_coolant_temp := 275.0 # °C
 export var pump_power_usage := 180000.0 # W
+export var max_safe_coolant_temp := 450.0 # °C
 
 onready var pdu := $"../PowerDistributor"
 
@@ -91,6 +94,10 @@ func _ready():
         _rod_depths.append(channel_length)
 
 func _process(dt: float):
+    if calculate_coolant_temp() > max_safe_coolant_temp:
+        set_control_mode(ControlMode.QUENCH)
+        emit_signal("scram_activated")
+
     for i in channel_count:
         _update_rod(i, dt)
     _update_flow(dt)

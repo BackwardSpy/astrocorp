@@ -1,0 +1,62 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://material/saturn.png" type="Texture" id=1]
+[ext_resource path="res://script/GridController.gd" type="Script" id=2]
+[ext_resource path="res://script/SpaceRoot.gd" type="Script" id=3]
+[ext_resource path="res://script/Reactor.gd" type="Script" id=4]
+[ext_resource path="res://script/APU.gd" type="Script" id=5]
+[ext_resource path="res://script/PowerDistributor.gd" type="Script" id=6]
+[ext_resource path="res://ReactorControlPanel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://WarpDriveControlPanel.tscn" type="PackedScene" id=8]
+[ext_resource path="res://script/WarpDrive.gd" type="Script" id=9]
+[ext_resource path="res://AsteroidListPanel.tscn" type="PackedScene" id=10]
+
+[sub_resource type="PanoramaSky" id=1]
+panorama = ExtResource( 1 )
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+tonemap_mode = 2
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+process_priority = -100
+environment = SubResource( 2 )
+script = ExtResource( 3 )
+
+[node name="GridController" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.999957, -0.000410428, 0.00931086, -0.0042465, 0.869237, 0.494377, -0.00829625, -0.494395, 0.869198, 0.189657, 12.0876, 17.8298 )
+
+[node name="Sun" type="DirectionalLight" parent="."]
+transform = Transform( 0.628235, 0, -0.778024, 0, 1, 0, 0.778024, 0, 0.628235, 0, 0, 0 )
+
+[node name="Ship" type="Node" parent="."]
+
+[node name="PowerDistributor" type="Node" parent="Ship"]
+script = ExtResource( 6 )
+
+[node name="APU" type="Node" parent="Ship"]
+script = ExtResource( 5 )
+
+[node name="Reactor" type="Node" parent="Ship"]
+script = ExtResource( 4 )
+
+[node name="WarpDrive" type="Node" parent="Ship"]
+script = ExtResource( 9 )
+
+[node name="ReactorControlPanel" parent="Ship" instance=ExtResource( 7 )]
+power_distributor = NodePath("../PowerDistributor")
+aux_power_unit = NodePath("../APU")
+reactor = NodePath("../Reactor")
+
+[node name="WarpDriveControlPanel" parent="Ship" instance=ExtResource( 8 )]
+warp_drive = NodePath("../WarpDrive")
+
+[node name="AsteroidListPanel" parent="Ship" instance=ExtResource( 10 )]
+[connection signal="grid_changed" from="GridController" to="Ship/AsteroidListPanel" method="refresh"]
+[connection signal="jumped" from="Ship/WarpDrive" to="GridController" method="_on_jumped"]

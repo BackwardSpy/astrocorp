@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://script/BeltGen.gd" type="Script" id=1]
+[ext_resource path="res://Asteroid.tscn" type="PackedScene" id=2]
+
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -20.0509, -3.8147e-05, -0.00143704, 0, 0, 0, 0, 0, 0, -18.0427, 0.00801468, -10.1079, 0, 0, 0, 0, 0, 0, -10.1013, 0.0128021, -16.0992, 0, 0, 0, 0, 0, 0, -0.123582, 0.0136185, -17.0975, 0, 0, 0, 0, 0, 0, 9.98556, 0.0128593, -16.1142, 0, 0, 0, 0, 0, 0, 17.9633, 0.0080719, -10.0806, 0, 0, 0, 0, 0, 0, 20.1911, 1.90735e-05, 0.0370736 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[node name="AsteroidBelt" type="Spatial"]
+script = ExtResource( 1 )
+asteroid = ExtResource( 2 )
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 1 )
+
+[node name="PathFollow" type="PathFollow" parent="Path"]
+transform = Transform( 0.98282, -0.000147383, 0.184568, 0.00014709, 1, 1.52856e-05, -0.184568, 1.2128e-05, 0.98282, -20.0509, -3.8147e-05, -0.00143704 )

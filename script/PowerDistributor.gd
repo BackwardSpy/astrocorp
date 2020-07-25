@@ -29,7 +29,7 @@ func input_power() -> float:
 func output_power() -> float:
     return _output
 
-func _process(dt: float):
+func _process(_dt: float):
     _power_pool = min(_power_pool, _input)
     _input = 0.0
     _output = 0.0
